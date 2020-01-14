@@ -1,0 +1,1 @@
+PHPscript for files access
