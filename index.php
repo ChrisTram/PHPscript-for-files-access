@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 exec("stat --format=\"%s\" \"$file\"");
 
 echo "<html>
@@ -17,10 +17,12 @@ echo "<html>
 
 
       <script type='text/javascript' src='js/materialize.min.js'></script>
+
 <table class='bordered highlight'>
         <thead>
           <tr>
               <th>Nom</th>
+              <th>Télécharger</th>
               <th>Poid</th>
               <th>Date</th>
           </tr>
@@ -61,10 +63,15 @@ function realFileSize($path) {
 // get everything except hidden files
 $files = preg_grep('/^([^.])/', scandir($path)); 
 
-foreach ($files as $file) {
+$replaceBy = array(" ", " ", " ", " ", " ");
+$toReplace = array(".", "#", "mp4", "mkv");
+
+
+foreach ($files as $file) { 
     if (!in_array($file, $blacklist)) {
         echo "<tr>
-        <td><a href='$path/$file' target='_blank'>$file</a></td>
+        <td><a href='$path/$file' target='_blank'>" .  str_replace($toReplace, $replaceBy, $file) . "</a></td>
+        <td><a class='btn-floating btn-medium waves-effect waves-light red' href='$path/$file' target='_blank' download><i class='material-icons'>cloud_download</i></a></td>
         <td>" .  human_filesize(realFileSize($file)) . "</td>
         <td>" .  date ("F d Y H:i:s.", filemtime($file)) . "</td>
 
